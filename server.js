@@ -24,12 +24,15 @@ app.use(helmet());
 
 // CORS setup - allows your frontend to communicate with backend
 const corsOptions = {
-  origin: process.env.FRONTEND_URL || ['http://localhost:3000', 'http://127.0.0.1:5500', 'https://your-frontend-domain.com'],
+  origin: process.env.FRONTEND_URL || ['http://localhost:3000', 'http://127.0.0.1:5500', 'https://eventsroobaroo-dotcom.github.io/ROOBAROO./'],
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type'],
   credentials: false
 };
 app.use(cors(corsOptions));
+
+const cors = require('cors');
+
 
 // Parse JSON requests
 app.use(express.json({ limit: '10mb' }));
