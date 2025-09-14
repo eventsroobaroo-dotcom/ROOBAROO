@@ -32,7 +32,7 @@ const corsOptions = {
   allowedHeaders: ['Content-Type'],
   credentials: false
 };
-app.use(cors(corsOptions));
+app.use(cors());
 
 // Parse JSON requests
 app.use(express.json({ limit: '10mb' }));
