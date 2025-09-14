@@ -4,12 +4,10 @@
 // This is the main entry point of your backend application.
 // It sets up Express server, middleware, and routes.
 
-app.use(cors());
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 require('dotenv').config();
-
 const registerRoute = require('./routes/register');
 
 // Create Express application
@@ -25,20 +23,16 @@ app.use(helmet());
 
 // CORS setup - allows your frontend to communicate with backend
 const corsOptions = {
-  origin: process.env.FRONTEND_URL || ['http://localhost:3000', 'http://127.0.0.1:5500', 'https://eventsroobaroo-dotcom.github.io/ROOBAROO./'],
+  origin: process.env.FRONTEND_URL || [
+    'http://localhost:3000',
+    'http://127.0.0.1:5500',
+    'https://eventsroobaroo-dotcom.github.io/ROOBAROO./'
+  ],
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type'],
   credentials: false
 };
 app.use(cors(corsOptions));
-
-const cors = require('cors');
-
-// Allow requests from your GitHub Pages frontend URL
-app.use(cors({
-  origin: 'https://eventsroobaroo-dotcom.github.io/ROOBAROO./'
-  // If your frontend lives at a different domain, change this value!
-}));
 
 // Parse JSON requests
 app.use(express.json({ limit: '10mb' }));
@@ -52,8 +46,8 @@ app.use(express.urlencoded({ extended: true }));
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
-  res.json({ 
-    status: 'OK', 
+  res.json({
+    status: 'OK',
     message: 'ROOBAROO Backend is running!',
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV || 'development'
@@ -79,11 +73,10 @@ app.use('*', (req, res) => {
 app.use((err, req, res, next) => {
   console.error('Error:', err.message);
   console.error('Stack:', err.stack);
-  
   res.status(err.status || 500).json({
     success: false,
-    error: process.env.NODE_ENV === 'production' 
-      ? 'Internal server error' 
+    error: process.env.NODE_ENV === 'production'
+      ? 'Internal server error'
       : err.message
   });
 });
@@ -91,7 +84,6 @@ app.use((err, req, res, next) => {
 // =============================================
 // START SERVER
 // =============================================
-
 app.listen(PORT, () => {
   console.log(`🚀 ROOBAROO Backend server is running on port ${PORT}`);
   console.log(`📊 Health check: http://localhost:${PORT}/api/health`);
@@ -104,7 +96,6 @@ process.on('SIGTERM', () => {
   console.log('SIGTERM received. Shutting down gracefully...');
   process.exit(0);
 });
-
 process.on('SIGINT', () => {
   console.log('SIGINT received. Shutting down gracefully...');
   process.exit(0);
