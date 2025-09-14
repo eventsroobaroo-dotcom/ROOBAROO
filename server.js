@@ -4,6 +4,7 @@
 // This is the main entry point of your backend application.
 // It sets up Express server, middleware, and routes.
 
+app.use(cors());
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
