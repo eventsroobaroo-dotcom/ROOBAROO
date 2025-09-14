@@ -33,6 +33,11 @@ app.use(cors(corsOptions));
 
 const cors = require('cors');
 
+// Allow requests from your GitHub Pages frontend URL
+app.use(cors({
+  origin: 'https://eventsroobaroo-dotcom.github.io/ROOBAROO./'
+  // If your frontend lives at a different domain, change this value!
+}));
 
 // Parse JSON requests
 app.use(express.json({ limit: '10mb' }));
