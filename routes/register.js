@@ -6,11 +6,13 @@
 
 const express = require('express');
 const router = express.Router();
+
 const googleSheets = require('../config/google-sheets');
-const { 
-  validateRegistration, 
-  sanitizeRegistrationData, 
-  simpleRateLimit 
+
+const {
+  validateRegistration,
+  sanitizeRegistrationData,
+  simpleRateLimit
 } = require('../middleware/validation');
 
 // =============================================
@@ -19,10 +21,11 @@ const {
 // This endpoint receives registration form submissions
 // and saves them to Google Sheets
 
-router.post('/register', 
-  simpleRateLimit,           // Rate limiting middleware
-  sanitizeRegistrationData,  // Clean input data
-  validateRegistration,      // Validate form data
+router.post(
+  '/register',
+  simpleRateLimit, // Rate limiting middleware
+  sanitizeRegistrationData, // Clean input data
+  validateRegistration, // Validate form data
   async (req, res) => {
     try {
       console.log('📝 New registration request received:', {
@@ -61,7 +64,6 @@ router.post('/register',
           submittedAt: new Date().toISOString()
         }
       });
-
     } catch (error) {
       console.error('❌ Registration error:', error.message);
 
@@ -104,6 +106,7 @@ router.post('/register',
 // GET /api/register (for testing)
 // =============================================
 // This endpoint returns information about the registration API
+
 router.get('/register', (req, res) => {
   res.json({
     message: 'ROOBAROO Registration API',
@@ -124,6 +127,7 @@ router.get('/register', (req, res) => {
 // GET /api/test-sheets (for setup testing)
 // =============================================
 // This endpoint tests the Google Sheets connection
+
 router.get('/test-sheets', async (req, res) => {
   try {
     console.log('🔍 Testing Google Sheets connection...');
@@ -133,17 +137,15 @@ router.get('/test-sheets', async (req, res) => {
     
     // Setup headers if needed
     const headerSetup = await googleSheets.setupSheetHeaders();
-    
+
     res.json({
       success: true,
       message: 'Google Sheets connection successful',
       connection: connectionTest,
       headers: headerSetup
     });
-
   } catch (error) {
     console.error('❌ Sheets connection test failed:', error.message);
-    
     res.status(500).json({
       success: false,
       error: 'Google Sheets connection failed',
